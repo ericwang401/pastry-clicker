@@ -56,9 +56,9 @@ function App() {
 
   useInterval(() => {
     if (trentons <= 0) return;
-    let chance = Math.floor(Math.random() * 35)
+    let chance = Math.floor(Math.random() * 60)
 
-    if (chance > 27) {
+    if (chance > 54) {
       setTrentons(trentons => trentons - 1)
     }
   }, 10000)
@@ -69,7 +69,7 @@ function App() {
     setScale(scale + 2)
     setColor(`#${Math.floor(Math.random() * 16777215).toString(16)}`)
     setTimeout(() => {
-      setScale(scale => scale - 2)
+      setScale(1)
     }, 50)
   }
 
@@ -77,9 +77,7 @@ function App() {
   return (
     <div className='flex h-full flex-col'>
       <div className='grow-0'>
-        <div className="flex justify-center items-center">
           <h1 className='text-center text-4xl font-bold'>Pastry Poker</h1>
-          <Register /></div>
         <div className="w-full p-5 bg-gray-400">
           <h3 className='text-center text-2xl font-medium'>
             Your pastries: {count}
