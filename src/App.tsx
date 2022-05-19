@@ -57,7 +57,7 @@ function App() {
     if (trentons <= 0) return;
     let chance = Math.floor(Math.random() * 35)
 
-    if ( chance > 20) {
+    if ( chance > 27) {
       setTrentons(trentons => trentons - 1)
     }
   }, 10000)
