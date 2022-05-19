@@ -55,9 +55,9 @@ function App() {
 
   useInterval(() => {
     if (trentons <= 0) return;
-    let chance = Math.floor(Math.random() * 35)
+    let chance = Math.floor(Math.random() * 60)
 
-    if ( chance > 27) {
+    if ( chance > 57) {
       setTrentons(trentons => trentons - 1)
     }
   }, 10000)
