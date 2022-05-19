@@ -44,9 +44,23 @@ function App() {
     setCachedCount(count)
   }, 250)
 
+  const buyTrenton = () => {
+    setTrentons(trentons => trentons + 1)
+    setCount(currentCount => currentCount - Math.floor((10000 * Math.pow(1.1, trentons))))
+  }
+
   const trentonBoosterTM = useInterval(() => {
     setCount(count + (trentons * 50))
   }, 100)
+
+  useInterval(() => {
+    if (trentons <= 0) return;
+    let chance = Math.floor(Math.random() * 60)
+
+    if ( chance > 57) {
+      setTrentons(trentons => trentons - 1)
+    }
+  }, 10000)
 
   const click = () => {
     setCount(count + 1)
@@ -75,7 +89,9 @@ function App() {
           <div className='rounded-md bg-gray-200 shadow-md my-3 p-4'>
             <h3 className='text-lg font-bold'>Buy a Trenton:tm:</h3>
             <p>You have { trentons } Trentons:tm:</p>
-            <button className='bg-green-500' onClick={() => setTrentons(trentons => trentons + 1)}>Buy Trenton</button>
+            <p>Trenton can also randomly die. You will not be compensated for the amount you spent.</p>
+            <p><strong>Costs:</strong> {(10000 * Math.floor(Math.pow(1.1, trentons))) } pastries</p>
+            <button className='bg-green-500' onClick={buyTrenton}>Buy Trenton</button>
           </div>
         </div>
       </div>
