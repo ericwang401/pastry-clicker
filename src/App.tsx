@@ -1,15 +1,52 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
 
+function useInterval(callback: Function, delay: number) {
+  const intervalRef = useRef<number>();
+  const callbackRef = useRef(callback);
+
+  // Remember the latest callback:
+  //
+  // Without this, if you change the callback, when setInterval ticks again, it
+  // will still call your old callback.
+  //
+  // If you add `callback` to useEffect's deps, it will work fine but the
+  // interval will be reset.
+
+  useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
+
+  // Set up the interval:
+
+  useEffect(() => {
+    intervalRef.current = window.setInterval(() => callbackRef.current(), delay);
+
+    // Clear interval if the components is unmounted or the delay changes:
+    return () => window.clearInterval(intervalRef.current);
+  }, [delay]);
+
+  // Returns a ref to the interval ID in case you want to clear it manually:
+  return intervalRef;
+}
+
 function App() {
   const [count, setCount] = useState(0)
+  const [cachedCount, setCachedCount] = useState(0)
   const [scale, setScale] = useState(1)
   const [rate, setRate] = useState(0)
-  const [trentons, setTrentons] = useState(0)
   const [color, setColor] = useState('#ca8a04')
-  const _count = useRef(count)
 
-  const _trentons = useRef(trentons)
+  const [trentons, setTrentons] = useState(0)
+
+  const rateCalculator = useInterval(() => {
+    setRate((count - cachedCount))
+    setCachedCount(count)
+  }, 250)
+
+  const trentonBoosterTM = useInterval(() => {
+    setCount(count + (trentons * 50))
+  }, 100)
 
   const click = () => {
     setCount(count + 1)
@@ -17,21 +54,9 @@ function App() {
     setScale(scale + 2)
     setColor(`#${Math.floor(Math.random() * 16777215).toString(16)}`)
     setTimeout(() => {
-      setScale(1)
+      setScale(scale => scale - 2)
     }, 50)
   }
-
-  const wow = useCallback(() => {
-    console.log('hello')
-
-    console.log(_count.current, _trentons.current)
-    setRate(500 + Math.random() * 1000)
-  }, [])
-
-  useEffect(() => {
-    setInterval(wow, 500)
-  }, [])
-
 
 
   return (
@@ -43,8 +68,15 @@ function App() {
             Your pastries: {count}
             <br />
             Your rate: {rate} pastries/sec
-
           </h3>
+        </div>
+
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='rounded-md bg-gray-200 shadow-md my-3 p-4'>
+            <h3 className='text-lg font-bold'>Buy a Trenton:tm:</h3>
+            <p>You have { trentons } Trentons:tm:</p>
+            <button className='bg-green-500' onClick={() => setTrentons(trentons => trentons + 1)}>Buy Trenton</button>
+          </div>
         </div>
       </div>
 
