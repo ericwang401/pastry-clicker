@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
+import Register from './components/Register';
 
 function useInterval(callback: Function, delay: number) {
   const intervalRef = useRef<number>();
@@ -57,7 +58,7 @@ function App() {
     if (trentons <= 0) return;
     let chance = Math.floor(Math.random() * 35)
 
-    if ( chance > 27) {
+    if (chance > 27) {
       setTrentons(trentons => trentons - 1)
     }
   }, 10000)
@@ -76,7 +77,9 @@ function App() {
   return (
     <div className='flex h-full flex-col'>
       <div className='grow-0'>
-        <h1 className='text-center text-4xl font-bold'>Pastry Poker</h1>
+        <div className="flex justify-center items-center">
+          <h1 className='text-center text-4xl font-bold'>Pastry Poker</h1>
+          <Register /></div>
         <div className="w-full p-5 bg-gray-400">
           <h3 className='text-center text-2xl font-medium'>
             Your pastries: {count}
@@ -88,9 +91,9 @@ function App() {
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='rounded-md bg-gray-200 shadow-md my-3 p-4'>
             <h3 className='text-lg font-bold'>Buy a Trenton:tm:</h3>
-            <p>You have { trentons } Trentons:tm:</p>
+            <p>You have {trentons} Trentons:tm:</p>
             <p>Trenton can also randomly die. You will not be compensated for the amount you spent.</p>
-            <p><strong>Costs:</strong> {(10000 * Math.floor(Math.pow(1.1, trentons))) } pastries</p>
+            <p><strong>Costs:</strong> {(10000 * Math.floor(Math.pow(1.1, trentons)))} pastries</p>
             <button className='bg-green-500' onClick={buyTrenton}>Buy Trenton</button>
           </div>
         </div>
