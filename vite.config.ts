@@ -3,7 +3,6 @@ import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import laravel from "vite-plugin-laravel";
 import react from "@vitejs/plugin-react";
-import reactRefresh from '@vitejs/plugin-react-refresh'
 import { resolve } from "path";
 
 export default defineConfig({
