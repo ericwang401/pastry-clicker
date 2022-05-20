@@ -17,9 +17,28 @@
         </style>
 
         <!-- Scripts and CSS import -->
-        @vite
+        @production
+            @vite
+        @endproduction
+
+        @env('local')
+            @verbatim
+                <script type="module" src="http://localhost:3000/@vite/client"></script>
+            @endverbatim
+            <script type="module">
+                import RefreshRuntime from "http://localhost:3000/@react-refresh"
+                RefreshRuntime.injectIntoGlobalHook(window)
+                window.$RefreshReg$ = () => {}
+                window.$RefreshSig$ = () => (type) => type
+                window.__vite_plugin_react_preamble_installed__ = true
+            </script>
+        @endenv
     </head>
-    <body class="antialiased">
+    <body>
         <div id="root"></div>
     </body>
+
+    @env('local')
+        <script type="module" src="http://localhost:3000/resources/scripts/main.tsx"></script>
+    @endenv
 </html>
