@@ -1,6 +1,13 @@
+import Container from '@/components/elements/Container'
+import { Paper } from '@mui/material'
+
 const LoginContainer = () => {
     return <>
-        <h1>hello</h1>
+        <Container content>
+            <Paper>
+                <h3>Login</h3>
+            </Paper>
+        </Container>
     </>
 }
 
