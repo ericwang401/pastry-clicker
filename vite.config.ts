@@ -15,7 +15,6 @@ export default defineConfig({
     plugins: [
         react(),
         //macrosPlugin(),
-        commonjs(),
         laravel({
             postcss: [tailwindcss(), autoprefixer()],
         }),
